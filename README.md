@@ -13,6 +13,12 @@ There is only one project. The learner puts each video starter directly into the
 
 Every function the learner must create has an explicit contract describing where it belongs, its input data, its returned output, and any side effects.
 
+## Live websites
+
+- Automatically deployed from `main`: <https://naeem-moostofa.github.io/tiny-tasks-course/>
+- Cloudflare production copy: <https://tiny-tasks-course.pages.dev/>
+- Public source repository: <https://github.com/naeem-moostofa/tiny-tasks-course>
+
 ## Instructor answer key
 
 The independently completed snapshots are in [`answers/`](answers/). Each `part-*` directory is self-contained and represents the end of one lesson. The public tutorial links to the answer index so learners can compare their work when they are ready. See [`answers/README.md`](answers/README.md) for run instructions and expected behavior.
