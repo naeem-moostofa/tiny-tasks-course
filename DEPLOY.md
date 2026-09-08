@@ -35,16 +35,3 @@ python -m http.server 8000 --directory dist
 ```
 
 Visit <http://localhost:8000>. The generated `dist` directory contains the tutorial assets and all answer-key files. Press **Ctrl+C** in the terminal to stop the preview server.
-
-## Existing Cloudflare Pages project
-
-The existing `tiny-tasks-course` Cloudflare project was created with Direct Upload. Cloudflare does not allow an existing Direct Upload project to be converted to Git integration. It can still be refreshed manually with:
-
-```powershell
-python build_site.py
-npx wrangler pages deploy dist --project-name tiny-tasks-course --branch main
-```
-
-Use the stable production address <https://tiny-tasks-course.pages.dev/>. Addresses beginning with a deployment hash, such as `https://3fe48045.tiny-tasks-course.pages.dev/`, refer to one fixed historical deployment and do not change after a later upload.
-
-If automatic Cloudflare deployment is preferred over GitHub Pages, create a new Git-integrated Cloudflare Pages project and select this GitHub repository. Use `python build_site.py` as the build command, `dist` as the output directory, and `main` as the production branch.

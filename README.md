@@ -16,7 +16,6 @@ Every function the learner must create has an explicit contract describing where
 ## Live websites
 
 - Automatically deployed from `main`: <https://naeem-moostofa.github.io/tiny-tasks-course/>
-- Cloudflare production copy: <https://tiny-tasks-course.pages.dev/>
 - Public source repository: <https://github.com/naeem-moostofa/tiny-tasks-course>
 
 ## Instructor answer key
@@ -39,4 +38,4 @@ The page stores checked lesson progress in the browser's local storage. No accou
 
 ## Deploy the course
 
-The public deployment contains the tutorial and the complete answer key. Follow [`DEPLOY.md`](DEPLOY.md) for the exact Cloudflare Pages and Git integration settings.
+The public deployment contains the tutorial and the complete answer key. Follow [`DEPLOY.md`](DEPLOY.md) for the automatic GitHub Pages workflow.
