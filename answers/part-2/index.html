@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiny Tasks</title>
+  </head>
+  <body>
+    <main>
+      <h1>Tiny Tasks</h1>
+      <p>One small thing at a time.</p>
+
+      <section>
+        <h2>My list</h2>
+
+        <input type="checkbox" id="task-1" />
+        <label for="task-1"><span>Pack lunch</span></label>
+
+        <form action="/add" method="post">
+          <label for="new-item">New item</label>
+          <input
+            type="text"
+            id="new-item"
+            name="text"
+            placeholder="New item…"
+            required
+          />
+          <input type="submit" value="Add item" />
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

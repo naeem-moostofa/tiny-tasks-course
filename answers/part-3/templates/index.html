@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiny Tasks</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <main>
+      <p class="kicker">My lists</p>
+      <h1>Tiny Tasks</h1>
+      <p>One small thing at a time.</p>
+
+      <form class="add-form" action="{{ url_for('add_list') }}" method="post">
+        <label for="new-list">New list</label>
+        <input id="new-list" name="name" type="text" required />
+        <button type="submit">Add list</button>
+      </form>
+
+      {% for task_list in lists %}
+        <section>
+          <div class="list-heading">
+            <h2>{{ task_list.name }}</h2>
+            <form action="{{ url_for('delete_list', list_id=task_list.id) }}" method="post">
+              <button class="delete-button" type="submit">Delete list</button>
+            </form>
+          </div>
+
+          <div class="items">
+            {% for item in task_list["items"] %}
+              <div class="item-row">
+                <form action="{{ url_for('toggle_item', item_id=item.id) }}" method="post">
+                  <button class="toggle-button" type="submit" aria-label="Toggle {{ item.text }}">
+                    {{ "✓" if item.done else "○" }}
+                  </button>
+                </form>
+                <span class="{% if item.done %}done{% endif %}">{{ item.text }}</span>
+                <form action="{{ url_for('delete_item', item_id=item.id) }}" method="post">
+                  <button class="delete-button" type="submit">Delete</button>
+                </form>
+              </div>
+            {% else %}
+              <p>No items yet.</p>
+            {% endfor %}
+          </div>
+
+          <form class="add-form" action="{{ url_for('add_item', list_id=task_list.id) }}" method="post">
+            <label for="new-item-{{ task_list.id }}">New item</label>
+            <input
+              id="new-item-{{ task_list.id }}"
+              name="text"
+              type="text"
+              placeholder="What needs doing?"
+              required
+            />
+            <button type="submit">Add item</button>
+          </form>
+        </section>
+      {% else %}
+        <p>No lists yet. Add one above.</p>
+      {% endfor %}
+    </main>
+  </body>
+</html>

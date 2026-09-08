@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A beginner-friendly, step-by-step guide to building a tiny to-do app with HTML, Python, Flask, and SQLite."
+    />
+    <title>Tiny Tasks — Your first web app</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to the lessons</a>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Tiny Tasks home">
+        <span class="brand-mark" aria-hidden="true">✓</span>
+        <span>Tiny Tasks</span>
+      </a>
+      <div class="top-progress" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="19" aria-valuenow="0">
+        <span id="progress-label">0 of 19 steps</span>
+        <div class="progress-track" aria-hidden="true">
+          <span id="progress-bar"></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-shell" id="top">
+      <aside class="sidebar" aria-label="Course navigation">
+        <p class="eyebrow">COURSE MAP</p>
+        <nav>
+          <a href="#welcome"><span>00</span> Start here</a>
+          <a href="#lesson-1"><span>01</span> Build the page</a>
+          <a href="#lesson-2"><span>02</span> Make a server</a>
+          <a href="#lesson-3"><span>03</span> Move to Flask</a>
+          <a href="#lesson-4"><span>04</span> Save with SQLite</a>
+          <a href="#finish"><span>05</span> Finish line</a>
+          <a href="answers/"><span>06</span> Answer key</a>
+        </nav>
+        <div class="sidebar-note">
+          <span aria-hidden="true">✦</span>
+          <p><strong>One small step at a time.</strong><br />Type the code. Break it. Fix it. That is programming.</p>
+        </div>
+      </aside>
+
+      <main id="main-content">
+        <section class="hero" id="welcome">
+          <div class="hero-copy">
+            <p class="eyebrow">A ZERO-EXPERIENCE COURSE</p>
+            <h1>Build your first<br /><em>tiny web app.</em></h1>
+            <p class="hero-lede">
+              Start with one HTML file. Finish with a real to-do app that remembers your lists—even after you close it.
+            </p>
+            <div class="build-spec" aria-label="The app you are building">
+              <p><strong>Your exact finish line</strong></p>
+              <ul>
+                <li>Create and remove named lists</li>
+                <li>Add, check, and remove text tasks</li>
+                <li>Close the server without losing anything</li>
+              </ul>
+              <p class="build-rule">Nothing else: no accounts, dates, reminders, or complicated screens.</p>
+            </div>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#setup">Start at step zero <span>↓</span></a>
+              <span class="time-pill">About 4–6 hours</span>
+            </div>
+          </div>
+
+          <div class="app-preview" role="img" aria-label="Preview of the finished to-do app">
+            <div class="preview-bar">
+              <span class="preview-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span>localhost:5000</span>
+            </div>
+            <div class="preview-body">
+              <p class="preview-kicker">MY LISTS</p>
+              <h2>Things to do</h2>
+              <div class="preview-list">
+                <div><span class="fake-check checked">✓</span><s>Learn what HTML does</s></div>
+                <div><span class="fake-check checked">✓</span><s>Meet a Python server</s></div>
+                <div><span class="fake-check"></span><span>Build something real</span></div>
+              </div>
+              <div class="preview-input"><span>Add a new item…</span><b>+</b></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section setup" id="setup">
+          <div class="section-heading">
+            <p class="eyebrow">BEFORE LESSON 1</p>
+            <h2>Set up your desk</h2>
+            <p>We only need a code editor, Python, a browser, and one carefully named folder.</p>
+          </div>
+
+          <div class="callout callout-blue">
+            <span class="callout-icon" aria-hidden="true">i</span>
+            <div>
+              <strong>What is a web app?</strong>
+              <p>A browser asks for a page. A server answers. HTML describes the page, Python runs the server, and SQLite remembers the data.</p>
+            </div>
+          </div>
+
+          <div class="lesson-flow" role="img" aria-label="Every lesson follows the same sequence: watch, understand, use starter, exercise, checkpoint">
+            <span><b>1</b> Watch</span><i>→</i><span><b>2</b> Understand</span><i>→</i><span><b>3</b> Use starter</span><i>→</i><span><b>4</b> Exercise</span><i>→</i><span><b>5</b> Check result</span>
+          </div>
+
+          <ol class="task-list">
+            <li>
+              <label><input class="course-check" type="checkbox" data-step="install-python" /> <span>Install <a href="https://www.python.org/downloads/" target="_blank" rel="noreferrer">Python 3</a>. On Windows, tick <strong>“Add Python to PATH”</strong> before clicking Install.</span></label>
+            </li>
+            <li>
+              <label><input class="course-check" type="checkbox" data-step="install-vscode" /> <span>Install <a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer">Visual Studio Code</a>. This is the app where you will type code.</span></label>
+            </li>
+            <li>
+              <label><input class="course-check" type="checkbox" data-step="make-folder" /> <span>Make a new folder named <code>tiny-tasks</code> inside your Documents folder. Lowercase letters and the hyphen matter.</span></label>
+            </li>
+            <li>
+              <label><input class="course-check" type="checkbox" data-step="open-folder" /> <span>Open VS Code. Click <strong>File → Open Folder…</strong>, choose <code>tiny-tasks</code>, then click <strong>Select Folder</strong>.</span></label>
+            </li>
+          </ol>
+
+          <div class="terminal-card">
+            <div class="terminal-title"><span aria-hidden="true">● ● ●</span> CHECK PYTHON</div>
+            <p>In VS Code, click <strong>Terminal → New Terminal</strong>. Type one command and press Enter:</p>
+            <pre><code><span class="prompt">&gt;</span> python --version</code></pre>
+            <p class="small">You should see <code>Python 3.x.x</code>. On macOS or Linux, use <code>python3 --version</code> if <code>python</code> is not found.</p>
+          </div>
+        </section>
+
+        <section class="lesson" id="lesson-1">
+          <div class="lesson-number" aria-hidden="true">01</div>
+          <div class="lesson-title">
+            <p class="eyebrow">THE BROWSER SIDE · ABOUT 60 MIN</p>
+            <h2>Build the page with HTML</h2>
+            <p>First, make the visible page. It will not save or change anything yet—and that is exactly right.</p>
+            <p class="stage-output"><span>This lesson adds</span> The visible screen: title, list, example task, and task form.</p>
+          </div>
+
+          <article class="video-card">
+            <div class="video-wrap">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/zIN54lhJtQU"
+                title="Learn HTML forms in 10+ minutes by Bro Code"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-copy">
+              <p class="eyebrow">WATCH FIRST · 12 MIN</p>
+              <h3>Learn HTML forms in 10+ minutes!</h3>
+              <p>Bro Code introduces the form, input, label, and button—the exact pieces our app needs.</p>
+              <a href="https://www.youtube.com/watch?v=zIN54lhJtQU" target="_blank" rel="noreferrer">Open on YouTube ↗</a>
+            </div>
+          </article>
+
+          <div class="key-ideas">
+            <p class="eyebrow">UNDERSTAND THE VIDEO</p>
+            <h3>What the form code is actually doing</h3>
+            <div class="idea-grid">
+              <div><code>&lt;tag&gt; content &lt;/tag&gt;</code><p>Most elements have an opening tag, content, and a closing tag. Nesting elements puts one piece inside another.</p></div>
+              <div><code>&lt;form&gt;</code><p>A form is a package of information. Pressing its submit button sends every named input in that package.</p></div>
+              <div><code>for="username"</code><p>A label’s <code>for</code> must match an input’s <code>id</code>. That connection helps screen readers and lets a user click the label.</p></div>
+              <div><code>name="username"</code><p>The <code>name</code> becomes the key sent to the server. Without a name, the typed value is not included in the form data.</p></div>
+              <div><code>type="text"</code><p>The input type changes the control and its rules. The video demonstrates text, password, email, number, radio, checkbox, and more.</p></div>
+              <div><code>required</code><p>This is a Boolean attribute: simply including it tells the browser not to submit an empty field.</p></div>
+            </div>
+          </div>
+
+          <article class="video-notebook">
+            <div class="notebook-head">
+              <div><p class="eyebrow">VIDEO STARTER CODE</p><h3>Start <code>index.html</code> with the video’s form</h3></div>
+              <span>Use in your app</span>
+            </div>
+            <p>This goes directly into the real app. In Exercise 1.1, create <code>index.html</code>, use the button below, and paste this form inside its <code>body</code>. You will then remove and rename parts until it becomes the task form.</p>
+            <div class="code-card">
+              <div class="code-top"><span>VIDEO STARTER · paste inside index.html</span><button class="copy-button" type="button">Copy starter</button></div>
+              <pre><code>&lt;form action="index.php" method="post"&gt;
+  &lt;label for="username"&gt;Username:&lt;/label&gt;
+  &lt;input type="text" id="username" name="username"
+         placeholder="Type your name" required&gt;
+
+  &lt;p&gt;Choose a title:&lt;/p&gt;
+  &lt;input type="radio" id="mr" name="title" value="Mr"&gt;
+  &lt;label for="mr"&gt;Mr&lt;/label&gt;
+  &lt;input type="radio" id="ms" name="title" value="Ms"&gt;
+  &lt;label for="ms"&gt;Ms&lt;/label&gt;
+
+  &lt;label for="comment"&gt;Comment:&lt;/label&gt;
+  &lt;textarea id="comment" name="comment" rows="3"&gt;&lt;/textarea&gt;
+
+  &lt;input type="checkbox" id="subscribe" name="subscribe"&gt;
+  &lt;label for="subscribe"&gt;Subscribe&lt;/label&gt;
+
+  &lt;input type="reset"&gt;
+  &lt;input type="submit"&gt;
+&lt;/form&gt;</code></pre>
+            </div>
+            <p class="source-note">The video uses <code>index.php</code> as its form receiver; we are not installing PHP. The form action will not work yet, and you will change it to a Python address during the exercise.</p>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>1.1</span><div><h3>Exercise: build your first app screen</h3><p>Start with the video example, then make one small change at a time.</p></div></div>
+            <ol class="micro-steps">
+              <li>In VS Code’s left sidebar, move your mouse over the <strong>TINY-TASKS</strong> folder.</li>
+              <li>Click the <strong>New File</strong> icon. Name the file <code>index.html</code>, then press Enter.</li>
+              <li>Click inside the empty file, type <code>!</code>, and press Enter. VS Code will create the basic HTML document. The <code>head</code> holds information about the page; the <code>body</code> holds everything a visitor can see.</li>
+              <li>Find the <code>title</code> element in the <code>head</code>. Change its words to <strong>Tiny Tasks</strong>. This changes the browser-tab title.</li>
+              <li>Inside the <code>body</code>, add a <code>main</code> element. Inside it, add an <code>h1</code> whose visible text is <strong>Tiny Tasks</strong> and a <code>p</code> whose text is <strong>One small thing at a time.</strong></li>
+              <li>Still inside <code>main</code>, add a <code>section</code>. Give the section an <code>h2</code> with the list name <strong>School</strong>.</li>
+              <li>Under the heading, add one sample task. Use a checkbox <code>input</code> with the ID <code>task-1</code>. Immediately after it, add a <code>label</code> whose <code>for</code> value is <code>task-1</code> and whose visible words are <strong>Finish science worksheet</strong>.</li>
+              <li>Return to the <strong>Video starter code</strong> box above and click <strong>Copy starter</strong>. Back in <code>index.html</code>, click after the sample task but before the section’s closing tag, then paste.</li>
+              <li>In the pasted form, delete the “Choose a title” paragraph, both radio inputs and their labels, the Comment label and textarea, the Subscribe checkbox and label, and the reset input. Keep only the username label, username text input, and submit input.</li>
+              <li>Change the remaining label’s words to <strong>New item</strong>. Change both its <code>for</code> value and the text input’s <code>id</code> to <code>new-item</code>. Matching these two values connects the label to the input.</li>
+              <li>Change the text input’s <code>name</code> value from <code>username</code> to <code>text</code>. Change its placeholder to <strong>New item…</strong>. Add a <code>value</code> attribute containing the words <strong>Add item</strong> to the submit input.</li>
+              <li>In the opening <code>form</code> tag, change the action from <code>index.php</code> to <code>/add</code>. Keep its method as <code>post</code>.</li>
+              <li>Press <kbd>Ctrl</kbd> + <kbd>S</kbd> (Windows/Linux) or <kbd>⌘</kbd> + <kbd>S</kbd> (Mac) to save.</li>
+            </ol>
+            <div class="callout callout-blue">
+              <span class="callout-icon" aria-hidden="true">✓</span>
+              <div><strong>Check your work without seeing an answer</strong><p>Your file should contain one <code>h1</code>, one <code>h2</code>, one sample checkbox, and one form with a text box and button. The opening and closing tags should be nested like boxes: the section is inside main, and main is inside body.</p></div>
+            </div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="html-file" /> <span>I created and saved <code>index.html</code>.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>1.2</span><div><h3>Open the page</h3><p>Use a tiny local server so the browser loads your file like a website.</p></div></div>
+            <ol class="micro-steps">
+              <li>Open the VS Code terminal with <strong>Terminal → New Terminal</strong>.</li>
+              <li>Type <code>python -m http.server 8000</code> and press Enter.</li>
+              <li>Do not close that terminal. Open your browser and visit <a href="http://localhost:8000" target="_blank">http://localhost:8000</a>.</li>
+              <li>To stop the server later, click inside the terminal and press <kbd>Ctrl</kbd> + <kbd>C</kbd>.</li>
+            </ol>
+            <div class="callout callout-amber">
+              <span class="callout-icon" aria-hidden="true">!</span>
+              <div><strong>The buttons do not work yet.</strong><p>HTML describes controls, but it cannot update Python data by itself. We connect the buttons in Lesson 2.</p></div>
+            </div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="open-page" /> <span>I can see “Tiny Tasks” at <code>localhost:8000</code>.</span></label>
+          </article>
+
+          <article class="exercise-card">
+            <p class="eyebrow">MINI CHALLENGE</p>
+            <h3>Make it yours</h3>
+            <p>In <code>index.html</code>, change <strong>School</strong> to a list name you would use. Change the example task too. Save, then refresh the browser.</p>
+            <details><summary>Show me exactly where</summary><p>Change the words between <code>&lt;h2&gt;</code> and <code>&lt;/h2&gt;</code>. Then change the visible words between the sample task’s opening and closing <code>label</code> tags. Any list name and task text you choose are correct; the picture below keeps the original examples.</p></details>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="html-exercise" /> <span>I changed the list and task text.</span></label>
+          </article>
+
+          <article class="stage-checkpoint">
+            <div class="checkpoint-copy">
+              <p class="eyebrow">END OF LESSON 1</p>
+              <h3>What you should have now</h3>
+              <ul>
+                <li>One file: <code>tiny-tasks/index.html</code></li>
+                <li>A page showing “Tiny Tasks,” one list name, one example task, and an add-item form</li>
+                <li>A clear understanding that the controls are visible but not connected to Python yet</li>
+              </ul>
+            </div>
+            <div class="checkpoint-screen" role="img" aria-label="Expected Lesson 1 browser result">
+              <div class="mini-address">localhost:8000</div>
+              <strong>Tiny Tasks</strong><b>School</b>
+              <span>○ Finish science worksheet</span>
+              <i>New item…　 Add item</i>
+            </div>
+          </article>
+
+        </section>
+
+        <section class="lesson" id="lesson-2">
+          <div class="lesson-number" aria-hidden="true">02</div>
+          <div class="lesson-title">
+            <p class="eyebrow">THE CONNECTION · ABOUT 90 MIN</p>
+            <h2>Make a raw Python server</h2>
+            <p>Now you will see the machinery: a request comes in, Python changes data, then sends HTML back.</p>
+            <p class="stage-output"><span>This lesson adds</span> Working add, check, and delete buttons for one temporary list.</p>
+          </div>
+
+          <article class="function-model">
+            <p class="eyebrow">A MENTAL MODEL FOR EVERY FUNCTION</p>
+            <h3>A function is a small machine with a clear job</h3>
+            <p>Before writing a function, describe its contract: what data enters, what data it produces, and what it changes outside itself. A name in the definition’s parentheses is a <strong>parameter</strong>—an empty input slot. The real value supplied when the function is called is an <strong>argument</strong>. The value after <code>return</code> is the <strong>output</strong>.</p>
+            <div class="function-flow" role="img" aria-label="Input data enters a function, which produces output data and may also cause a side effect">
+              <span><strong>Input</strong><small>data entering</small></span>
+              <b>→</b>
+              <span><strong>Function</strong><small>one named job</small></span>
+              <b>→</b>
+              <span><strong>Output</strong><small>data returned</small></span>
+            </div>
+            <div class="function-side-effect">
+              <strong>A function may also cause a side effect</strong>
+              <span>It changes something outside its own local work: memory, a file, a database, the browser, or the terminal.</span>
+            </div>
+            <p class="function-note"><strong>Not every function has all three.</strong> A page-building function can return HTML without changing anything. A save function may change a database and return no useful data. A Flask route often does both: it changes stored data and returns a response.</p>
+          </article>
+
+          <article class="video-card">
+            <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/Hncp0mPfUvk" title="Build Your Own Web Server from Scratch using Python by Rivaan Ranawat" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+            <div class="video-copy"><p class="eyebrow">WATCH FIRST</p><h3>Build Your Own Web Server from Scratch using Python!</h3><p>This goes deeper than our app needs. Focus on sockets, requests, responses, headers, and status codes.</p><a href="https://www.youtube.com/watch?v=Hncp0mPfUvk" target="_blank" rel="noreferrer">Open on YouTube ↗</a><a class="source-link" href="https://github.com/RivaanRanawat/web-server-python" target="_blank" rel="noreferrer">Creator’s complete source code ↗</a></div>
+          </article>
+
+          <div class="request-diagram" role="img" aria-label="Request and response flow">
+            <div><span>1</span><strong>Browser</strong><small>POST /items</small></div><b>→</b><div><span>2</span><strong>Python</strong><small>changes the list</small></div><b>→</b><div><span>3</span><strong>Browser</strong><small>gets fresh HTML</small></div>
+          </div>
+
+          <article class="rendering-model">
+            <p class="eyebrow">ONE IMPORTANT ARCHITECTURE CHOICE</p>
+            <h3>Why does our server return the whole HTML page?</h3>
+            <p>We are building a <strong>server-rendered app</strong>. The browser asks for <code>/</code>, Python combines the current task data with the page structure, and the server returns one finished HTML document. After a form changes the data, the redirect makes the browser request and display a fresh page.</p>
+            <div class="architecture-grid">
+              <div>
+                <span class="architecture-label">THE STYLE WE USE</span>
+                <h4>Server-rendered</h4>
+                <p><code>GET /</code> → Python reads data → Python produces complete HTML → the browser displays it.</p>
+                <p>In this raw server, <code>make_page</code> builds that HTML string. In Flask, the same job moves into <code>templates/index.html</code>, and <code>render_template</code> fills it with data. The browser still receives complete HTML.</p>
+              </div>
+              <div>
+                <span class="architecture-label">ANOTHER COMMON STYLE</span>
+                <h4>API-style</h4>
+                <p>The browser first loads HTML plus JavaScript. That JavaScript asks an API address such as <code>/api/items</code> for data. The server usually replies with JSON data such as <code>{"text": "Pack lunch", "done": true}</code>, not a finished page.</p>
+                <p>The JavaScript must then turn that data into visible HTML and update the page.</p>
+              </div>
+            </div>
+            <p class="architecture-note"><strong>Both styles are normal.</strong> Plain HTML cannot fetch JSON and turn it into changing task rows by itself; an API-style version would require JavaScript as a third programming language. This course uses server rendering so you can understand a complete app with Python and HTML first.</p>
+          </article>
+
+          <div class="key-ideas">
+            <p class="eyebrow">UNDERSTAND THE VIDEO</p>
+            <h3>How a browser and server have a conversation</h3>
+            <div class="idea-grid">
+              <div><code>socket</code><p>A socket is one end of a network connection. The video creates one, attaches it to a port, listens, and accepts a browser connection.</p></div>
+              <div><code>bytes ↔ text</code><p>Networks move bytes. <code>decode()</code> turns incoming bytes into readable text; <code>encode()</code> turns a response back into bytes.</p></div>
+              <div><code>GET / HTTP/1.1</code><p>The request’s first line contains a method, a path, and an HTTP version. GET means “send me something.”</p></div>
+              <div><code>POST</code><p>POST means “here is information that should change something.” Our forms use it to add, check, or delete.</p></div>
+              <div><code>200 OK</code><p>A response starts with a status line. 200 means the request worked. Headers describe the response; the body contains the HTML.</p></div>
+              <div><code>303 See Other</code><p>After a POST, we send the browser back to <code>/</code>. This prevents refreshing the page from submitting the form twice.</p></div>
+            </div>
+          </div>
+
+          <article class="video-notebook">
+            <div class="notebook-head"><div><p class="eyebrow">VIDEO STARTER CODE</p><h3>Start <code>server.py</code> with the video’s socket server</h3></div><span>Use in your app</span></div>
+            <p>This is the file you will change into the real task server. In Exercise 2.1, create <code>server.py</code> beside <code>index.html</code>, copy this starter into it, and continue editing that same file. The creator’s repository above contains the fully commented version.</p>
+            <div class="code-card tall-code">
+              <div class="code-top"><span>VIDEO STARTER · server.py</span><button class="copy-button" type="button">Copy starter</button></div>
+              <pre><code>import socket
+
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 8080
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server_socket.bind((SERVER_HOST, SERVER_PORT))
+server_socket.listen(5)
+
+print(f"Listening on port {SERVER_PORT}...")
+
+while True:
+    client_socket, client_address = server_socket.accept()
+    request = client_socket.recv(1500).decode()
+    print(request)
+
+    request_line = request.splitlines()[0]
+    method, path, version = request_line.split()
+
+    if method == "GET" and path == "/":
+        with open("index.html", encoding="utf-8") as file:
+            content = file.read()
+        response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n" + content
+    else:
+        response = "HTTP/1.1 404 Not Found\r\n\r\nPage not found"
+
+    client_socket.sendall(response.encode())
+    client_socket.close()</code></pre>
+            </div>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>2.1</span><div><h3>Exercise: build the task version</h3><p>Put the video starter directly into <code>server.py</code>, then change that file one step at a time.</p></div></div>
+            <div class="function-contracts" aria-label="Contract for the make_page function">
+              <article class="function-contract">
+                <h4>make_page(items_to_show)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>After <code>items</code> and <code>next_id</code>, but before the video’s <code>while True</code> server loop.</dd></div>
+                  <div><dt>Input</dt><dd><code>items_to_show</code>: one list of task dictionaries. Later, <code>items</code> is the argument placed into this parameter.</dd></div>
+                  <div><dt>Output</dt><dd>One string containing the complete HTML page.</dd></div>
+                  <div><dt>Side effect</dt><dd>None. It reads the input but must not change it or send it.</dd></div>
+                </dl>
+              </article>
+            </div>
+            <ol class="micro-steps">
+              <li>Stop the old server with <kbd>Ctrl</kbd> + <kbd>C</kbd>.</li>
+              <li>In VS Code’s left sidebar, create <code>server.py</code> beside <code>index.html</code>. Do not create another folder.</li>
+              <li>Return to the <strong>Video starter code</strong> box above, click <strong>Copy starter</strong>, paste it into <code>server.py</code>, and save. This is now your app’s server code—not a separate example.</li>
+              <li>In <code>server.py</code>, change the starter’s port from <code>8080</code> to <code>8000</code>. All later links in this lesson use port 8000.</li>
+              <li>At the top of <code>server.py</code>, keep <code>import socket</code>. Also import Python’s <code>html</code> module, plus <code>parse_qs</code> and <code>urlsplit</code> from <code>urllib.parse</code>. You will use these names to safely display text and separate URL/form data.</li>
+              <li>Below the host and port, create a variable named <code>items</code>. Give it two task dictionaries: ID 1 is <strong>Finish science worksheet</strong> with <code>done</code> set to <code>False</code>; ID 2 is <strong>Pack lunch</strong> with <code>done</code> set to <code>True</code>.</li>
+              <li>Add <code>next_id</code> immediately after that list and set it to <code>3</code>, the first unused ID.</li>
+              <li>On the first unindented line after <code>next_id</code>, define <code>make_page</code> with one parameter named <code>items_to_show</code>. End the definition line with a colon. Everything belonging to this function must be indented four spaces.</li>
+              <li>Inside <code>make_page</code>, begin with an empty text variable for the item HTML. Loop through <code>items_to_show</code>—the parameter, not the outside <code>items</code> variable. Before placing task text in HTML, pass it through <code>html.escape</code>. Add one list row for each dictionary.</li>
+              <li>Give each row two POST forms. The toggle action must start with <code>/toggle?id=</code> followed by the current item’s ID; the delete action uses <code>/delete?id=</code> followed by that same ID. The part after <code>?</code> is a <strong>query string</strong>: extra named data carried in the URL.</li>
+              <li>Still inside the function but after the loop, return a complete HTML-page string. Adapt your Lesson 1 markup, replace the fixed sample task with the HTML built by the loop, and make the add form post to <code>/add</code>. This returned string is the function’s output.</li>
+              <li>End the function by moving back to the far-left edge. Keep the video’s <code>while True</code> loop here, below the function. The server loop should not be inside <code>make_page</code>.</li>
+              <li>In the request-line split from the starter, rename the middle value from <code>path</code> to <code>target</code>, because it may now contain a query string. Pass <code>target</code> to <code>urlsplit</code>. Use the result’s <code>path</code> for route comparisons, and pass its <code>query</code> to <code>parse_qs</code> to get the named ID data.</li>
+              <li>In the GET <code>/</code> branch, replace the file-reading part with a call to <code>make_page</code>. Pass <code>items</code> as the argument and store the returned HTML string as the response content.</li>
+              <li>For POST <code>/add</code>, use the blank line between the request headers and body as the separator. The separator is two copies of <code>\r\n</code>. Take the text after that separator, pass it to <code>parse_qs</code>, read the value named <code>text</code>, and remove surrounding spaces.</li>
+              <li>If that cleaned text is not empty, append a new dictionary using <code>next_id</code> and <code>done=False</code>, then increase <code>next_id</code>.</li>
+              <li>For POST <code>/toggle</code>, read <code>id</code> from the parsed query-string data, convert it to an integer, find the matching dictionary, and change its <code>done</code> value to the opposite Boolean value.</li>
+              <li>For POST <code>/delete</code>, read and convert the query-string ID the same way, then remove only the matching dictionary from <code>items</code>.</li>
+              <li>After any POST, send a <code>303 See Other</code> response with a <code>Location: /</code> header. This tells the browser to request the newly updated page.</li>
+              <li>Save the file. If Python reports an indentation error, make sure every line inside a function, loop, or <code>if</code> block is moved right by four spaces.</li>
+            </ol>
+            <div class="callout callout-blue">
+              <span class="callout-icon" aria-hidden="true">✓</span>
+              <div><strong>Checkpoint before you run it</strong><p>You should be able to point to the data list, the HTML-building loop, one GET branch, three POST branches, and the final redirect. These parts may look different from another student’s code and still be correct.</p></div>
+            </div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="raw-server-file" /> <span>I created and saved <code>server.py</code>.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>2.2</span><div><h3>Run it and prove it works</h3><p>Use the terminal for the server and the browser for the app.</p></div></div>
+            <div class="terminal-card compact"><pre><code><span class="prompt">&gt;</span> python server.py</code></pre></div>
+            <ol class="micro-steps">
+              <li>Visit <a href="http://localhost:8000" target="_blank">http://localhost:8000</a>.</li>
+              <li>Type <strong>Test my server</strong> and click <strong>Add item</strong>.</li>
+              <li>Click the circle beside the new item. It should become a check mark.</li>
+              <li>Click <strong>Delete</strong>. The item should disappear.</li>
+              <li>Stop and restart <code>server.py</code>. Your changes disappear because the list only lived in the computer’s short-term memory.</li>
+            </ol>
+            <div class="why-card memory-card">
+              <span class="why-label">IMPORTANT LIMIT</span>
+              <div><h3>Why did everything disappear?</h3><p><code>items = [...]</code> lives in RAM—the computer’s working memory. Stopping Python destroys those values. We are using memory now because it is the easiest place to see a list change. Keep this weakness in mind: Lesson 4 will replace RAM with a database file that survives restarts.</p></div>
+            </div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="raw-server-run" /> <span>Add, check, and delete all work. I also saw the data reset.</span></label>
+          </article>
+
+          <article class="exercise-card">
+            <p class="eyebrow">MINI CHALLENGE</p><h3>Add one starter item</h3>
+            <p>Inside the <code>items</code> list, add a third dictionary. Give it the next unused integer ID, the text <strong>I added this in Python</strong>, and a <code>done</code> value of <code>False</code>. Then increase <code>next_id</code> so it will not reuse that ID. Restart the server and confirm the new item appears.</p>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="server-exercise" /> <span>I added a starter item and changed the next ID.</span></label>
+          </article>
+
+          <article class="stage-checkpoint">
+            <div class="checkpoint-copy">
+              <p class="eyebrow">END OF LESSON 2</p><h3>What you should have now</h3>
+              <ul>
+                <li><code>index.html</code> plus a new <code>server.py</code></li>
+                <li>One working list where you can add, check, and remove tasks</li>
+                <li>Terminal request logs that prove the browser is talking to Python</li>
+                <li>Tasks that deliberately reset when the server stops</li>
+              </ul>
+            </div>
+            <div class="checkpoint-screen server-screen" role="img" aria-label="Expected Lesson 2 result">
+              <div class="mini-address">localhost:8000</div><strong>Tiny Tasks</strong><b>My list</b>
+              <span>✓ <s>Pack lunch</s>　<small>Delete</small></span>
+              <span>○ Test my server　<small>Delete</small></span>
+              <i>New item…　 Add item</i>
+              <em>Restart → resets</em>
+            </div>
+          </article>
+        </section>
+
+        <section class="lesson" id="lesson-3">
+          <div class="lesson-number" aria-hidden="true">03</div>
+          <div class="lesson-title"><p class="eyebrow">THE HELPFUL FRAMEWORK · ABOUT 75 MIN</p><h2>Move the app to Flask</h2><p>You now know what a server does. Flask gives the common pieces shorter, friendlier names.</p><p class="stage-output"><span>This lesson adds</span> Cleaner routes, reusable HTML, styling, and multiple named lists.</p></div>
+
+          <div class="why-card">
+            <span class="why-label">WHY CHANGE IT?</span>
+            <div><h3>The raw server taught the lesson—but it is hard to grow</h3><p>Your current file manually reads form bytes, splits URLs, chooses status codes, builds HTML inside Python strings, and repeats redirect headers. Every new button adds more parsing. Flask already solves that plumbing, so our code can say what the app means: “this URL adds a task” or “render this HTML template.” The browser still sends the same HTTP requests you learned in Lesson 2.</p></div>
+          </div>
+
+          <article class="video-card">
+            <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/6mvG_N-xPPU" title="Learn Flask in 10 Minutes by blondiebytes" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+            <div class="video-copy"><p class="eyebrow">WATCH FIRST · 10 MIN</p><h3>Learn Flask in 10 Minutes</h3><p>Notice how a route joins a web address to a Python function, and how a template keeps HTML out of Python.</p><a href="https://www.youtube.com/watch?v=6mvG_N-xPPU" target="_blank" rel="noreferrer">Open on YouTube ↗</a></div>
+          </article>
+
+          <div class="key-ideas">
+            <p class="eyebrow">UNDERSTAND THE VIDEO</p><h3>What Flask adds—and what it does not</h3>
+            <div class="idea-grid">
+              <div><code>app = Flask(__name__)</code><p>This creates the application object. Flask uses <code>__name__</code> to locate files belonging to this project.</p></div>
+              <div><code>@app.route("/")</code><p>A decorator connects a URL path to the function immediately below it. Flask calls that function when a matching request arrives. That function is called a view.</p></div>
+              <div><code>return</code><p>The view’s output becomes the HTTP response. It can be plain text, rendered HTML, or a redirect. Returning also ends that run of the function.</p></div>
+              <div><code>render_template()</code><p>This opens a file from <code>templates/</code> and fills in its Jinja placeholders before sending the HTML.</p></div>
+              <div><code>request.form</code><p>Flask parses an incoming form body for us. <code>request.form["text"]</code> reads the input whose HTML name is <code>text</code>.</p></div>
+              <div><code>&lt;int:item_id&gt;</code><p>This part of a route accepts a number from the URL. Flask converts it to an integer and supplies it to the view’s matching <code>item_id</code> parameter.</p></div>
+              <div><code>redirect() + url_for()</code><p><code>url_for</code> finds the URL connected to a function name. <code>redirect</code> turns that URL into a response telling the browser where to go next.</p></div>
+              <div><code>debug=True</code><p>During learning, Flask automatically reloads after code changes and shows useful errors. Never use debug mode on a public production server.</p></div>
+            </div>
+          </div>
+
+          <article class="video-notebook">
+            <div class="notebook-head"><div><p class="eyebrow">VIDEO STARTER CODE</p><h3>Start <code>app.py</code> with the video’s Flask app</h3></div><span>Use in your app</span></div>
+            <p>The important pattern is “route → function → response.” After installing Flask in Step 3.1, create the real <code>app.py</code> beside <code>server.py</code>, copy this starter into it, and adapt that same file in Step 3.2.</p>
+            <div class="code-card">
+              <div class="code-top"><span>VIDEO STARTER · app.py</span><button class="copy-button" type="button">Copy starter</button></div>
+              <pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def home():
+    return "&lt;h1&gt;Hello from Flask!&lt;/h1&gt;"
+
+
+@app.route("/about")
+def about():
+    return "This is the about page."
+
+
+if __name__ == "__main__":
+    app.run(debug=True)</code></pre>
+            </div>
+            <p class="source-note">After creating <code>app.py</code>, run it once and visit <code>localhost:5000</code>, then <code>localhost:5000/about</code>. The path changes which function runs. Read the functions as contracts: <code>home</code> and <code>about</code> go below their decorators and above <code>app.run</code>; neither takes a parameter or has a side effect; each returns a response string.</p>
+          </article>
+
+          <div class="translation-table">
+            <div class="table-head"><span>Raw server</span><span>Flask</span><span>Meaning</span></div>
+            <div><code>do_GET</code><code>@app.get("/")</code><span>Answer a page request</span></div>
+            <div><code>do_POST</code><code>@app.post("/add")</code><span>Answer a change request</span></div>
+            <div><code>make_page()</code><code>render_template()</code><span>Build the HTML response</span></div>
+            <div><code>send_response(303)</code><code>redirect()</code><span>Send the browser back home</span></div>
+          </div>
+
+          <article class="build-step">
+            <div class="step-head"><span>3.1</span><div><h3>Make a private Python workspace</h3><p>A virtual environment keeps this project’s packages separate.</p></div></div>
+            <ol class="micro-steps">
+              <li>Stop <code>server.py</code> with <kbd>Ctrl</kbd> + <kbd>C</kbd>.</li>
+              <li>Run the first command below. Wait until it finishes.</li>
+              <li>Run the command for your operating system to activate the environment.</li>
+              <li>Run the final command to install Flask.</li>
+            </ol>
+            <div class="terminal-card">
+              <div class="terminal-title">WINDOWS POWERSHELL</div>
+              <pre><code><span class="prompt">&gt;</span> python -m venv .venv
+<span class="prompt">&gt;</span> .\.venv\Scripts\Activate.ps1
+<span class="prompt">(.venv) &gt;</span> python -m pip install Flask</code></pre>
+              <div class="terminal-title terminal-divider">MACOS / LINUX</div>
+              <pre><code><span class="prompt">$</span> python3 -m venv .venv
+<span class="prompt">$</span> source .venv/bin/activate
+<span class="prompt">(.venv) $</span> python -m pip install Flask</code></pre>
+            </div>
+            <div class="callout callout-amber"><span class="callout-icon" aria-hidden="true">!</span><div><strong>PowerShell says scripts are disabled?</strong><p>Run <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code>, press <kbd>Y</kbd>, then run the activate command again. This changes only the current terminal window.</p></div></div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="install-flask" /> <span>I see <code>(.venv)</code> at the start of my terminal line and Flask is installed.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>3.2</span><div><h3>Exercise: replace the raw server with Flask routes</h3><p>Use the video’s small Flask app as your starting point.</p></div></div>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">i</span><div><strong>Where all six functions go</strong><p>Put the data variables and ID counters first. Put the six route functions next, in the order shown below. Keep the video’s final <code>if __name__ == "__main__"</code> section last. Every decorator must sit directly above the function it connects to a URL.</p></div></div>
+            <div class="function-contracts" aria-label="Contracts for the Flask route functions">
+              <article class="function-contract">
+                <h4>index()</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>First route, below the ID counters. Connect it to GET <code>/</code>.</dd></div>
+                  <div><dt>Input</dt><dd>No parameters. It reads the outside <code>lists</code> variable.</dd></div>
+                  <div><dt>Output</dt><dd>The rendered <code>index.html</code> response.</dd></div>
+                  <div><dt>Side effect</dt><dd>None; it reads the lists but does not change them.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>add_list()</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Second route. Connect it to POST <code>/lists</code>.</dd></div>
+                  <div><dt>Input</dt><dd>No parameter; it reads <code>name</code> from the submitted form.</dd></div>
+                  <div><dt>Output</dt><dd>A redirect response to <code>index</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Adds one list and increases <code>next_list_id</code>.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>delete_list(list_id)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Third route. Connect it to POST <code>/lists/&lt;int:list_id&gt;/delete</code>.</dd></div>
+                  <div><dt>Input</dt><dd><code>list_id</code>: an integer Flask takes from the URL.</dd></div>
+                  <div><dt>Output</dt><dd>A redirect response to <code>index</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Removes the matching list from memory.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>add_item(list_id)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Fourth route. Connect it to POST <code>/lists/&lt;int:list_id&gt;/items</code>.</dd></div>
+                  <div><dt>Input</dt><dd><code>list_id</code> from the URL and <code>text</code> from the form.</dd></div>
+                  <div><dt>Output</dt><dd>A redirect response to <code>index</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Adds an item and increases <code>next_item_id</code>.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>toggle_item(item_id)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Fifth route. Connect it to POST <code>/items/&lt;int:item_id&gt;/toggle</code>.</dd></div>
+                  <div><dt>Input</dt><dd><code>item_id</code>: an integer Flask takes from the URL.</dd></div>
+                  <div><dt>Output</dt><dd>A redirect response to <code>index</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Reverses the matching item’s <code>done</code> value.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>delete_item(item_id)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Sixth route. Connect it to POST <code>/items/&lt;int:item_id&gt;/delete</code>.</dd></div>
+                  <div><dt>Input</dt><dd><code>item_id</code>: an integer Flask takes from the URL.</dd></div>
+                  <div><dt>Output</dt><dd>A redirect response to <code>index</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Removes the matching item from memory.</dd></div>
+                </dl>
+              </article>
+            </div>
+            <ol class="micro-steps">
+              <li>In VS Code’s left sidebar, create <code>app.py</code> beside <code>server.py</code>. Return to the <strong>Video starter code</strong> box above, click <strong>Copy starter</strong>, paste it into <code>app.py</code>, and save.</li>
+              <li>Run <code>python app.py</code>. Visit <code>localhost:5000</code> and <code>localhost:5000/about</code>. Once both starter pages work, stop Flask with <kbd>Ctrl</kbd> + <kbd>C</kbd> and continue editing this same file.</li>
+              <li>Keep the video’s <code>Flask</code> import and app creation. Also import <code>render_template</code>, <code>request</code>, <code>redirect</code>, and <code>url_for</code> from Flask. You will use each name in the next steps.</li>
+              <li>After testing the starter, delete its <code>home</code> and <code>about</code> route functions. Keep the Flask import, <code>app</code> creation, and final <code>app.run</code> section; your six app routes will go between them.</li>
+              <li>Directly below the Flask app creation, add a <code>lists</code> variable. Start with one list: ID 1, name <strong>School</strong>, and two items. Item 1 is <strong>Finish science worksheet</strong> and unfinished; item 2 is <strong>Pack lunch</strong> and finished. Each list dictionary needs <code>id</code>, <code>name</code>, and <code>items</code>; each item needs <code>id</code>, <code>text</code>, and <code>done</code>.</li>
+              <li>Immediately below the data, add <code>next_list_id</code> set to <code>2</code> and <code>next_item_id</code> set to <code>3</code>. These are the first unused IDs.</li>
+              <li>Make <code>index</code> using its contract above. Pass <code>lists</code> into <code>render_template</code>, then return the result. Returning that result produces the page response.</li>
+              <li>Make <code>add_list</code>. Read the form field named <code>name</code>, add a dictionary with an empty items list, increase <code>next_list_id</code>, then return a redirect to <code>index</code>.</li>
+              <li>Make <code>delete_list</code> with the <code>list_id</code> parameter shown in its contract. Remove the dictionary whose ID matches that input, then return the redirect.</li>
+              <li>Make <code>add_item</code> with a <code>list_id</code> parameter. Read <code>text</code> from the form, find the list matching the parameter, append a new item, increase <code>next_item_id</code>, then return the redirect.</li>
+              <li>Make <code>toggle_item</code> with an <code>item_id</code> parameter. Search the nested lists for that ID, reverse its Boolean <code>done</code> value, then return the redirect.</li>
+              <li>Make <code>delete_item</code> with an <code>item_id</code> parameter. Search each list and remove only the item with that ID, then return the redirect.</li>
+              <li>Check every function against its four contract rows. Keep the video’s final <code>app.run</code> section below all six functions so the server starts only after Python has learned every route.</li>
+            </ol>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">✓</span><div><strong>Route checkpoint</strong><p>Your file should now have six route decorators: one GET route and five POST routes. No HTML needs to be inside <code>app.py</code>; the next exercise moves that job into a template.</p></div></div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="flask-app" /> <span>I created and saved <code>app.py</code>.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>3.3</span><div><h3>Make the template folders</h3><p>Flask looks for HTML in <code>templates</code> and CSS in <code>static</code>.</p></div></div>
+            <div class="folder-tree" role="img" aria-label="Required folder structure">
+              <code>tiny-tasks/</code>
+              <code>├── .venv/</code>
+              <code>├── static/</code>
+              <code>│   └── style.css</code>
+              <code>├── templates/</code>
+              <code>│   └── index.html</code>
+              <code>├── app.py</code>
+              <code>└── server.py</code>
+            </div>
+            <ol class="micro-steps">
+              <li>Create a folder named <code>templates</code>. Drag your first <code>index.html</code> into it.</li>
+              <li>Create a folder named <code>static</code>. Inside it, create <code>style.css</code>.</li>
+              <li>Complete the HTML and CSS exercises below. Keep the folder names exactly as shown; Flask uses those names to find the files.</li>
+            </ol>
+            <div class="exercise-brief">
+              <p class="eyebrow">HTML TEMPLATE EXERCISE</p>
+              <h3>Make one card for every list</h3>
+              <ol>
+                <li>Keep the basic document, title, <code>main</code>, and heading from Lesson 1. In the <code>head</code>, add a stylesheet link whose address uses Flask’s <code>url_for</code> helper to find <code>static/style.css</code>.</li>
+                <li>Immediately before the <code>h1</code>, add a small paragraph with the class <code>kicker</code> and the words <strong>MY LISTS</strong>. You will give this your accent colour in the CSS exercise.</li>
+                <li>Near the top of <code>main</code>, make an add-list form with the class <code>add-form</code>. Its field must be named <code>name</code>, its method must be POST, and its action must use <code>url_for</code> to point to your add-list function.</li>
+                <li>Use the Jinja loop pattern from the video to loop over <code>lists</code>. Put a <code>section</code> inside the loop so Flask produces one section for every list.</li>
+                <li>Inside that section, make a wrapper with the class <code>list-heading</code>. Inside the wrapper, show the current list’s <code>name</code> and add a delete-list form whose action points to your delete-list function and passes the current list’s ID. Give its button the class <code>delete-button</code>.</li>
+                <li>Inside each list section, add a second Jinja loop over that list’s <code>items</code>. Wrap each item in an element with the class <code>item-row</code>. Show the text and add separate POST forms for the toggle and delete-item functions. Pass the current item’s ID to both actions; give their buttons the classes <code>toggle-button</code> and <code>delete-button</code>.</li>
+                <li>Use a Jinja <code>if</code> expression to add the class <code>done</code> only when an item’s done value is true. Put the class on the element containing the item text.</li>
+                <li>After the item loop, add an add-item form with the class <code>add-form</code>. Name its text field <code>text</code> and pass the current list’s ID to the add-item function.</li>
+                <li>Use Jinja’s <code>else</code> section on each loop to display a friendly message when there are no lists or no items. The exact friendly wording is your choice.</li>
+              </ol>
+            </div>
+            <div class="exercise-brief">
+              <p class="eyebrow">CSS EXERCISE</p>
+              <h3>Make the structure easy to read</h3>
+              <ol>
+                <li>Open <code>static/style.css</code>. Add a rule for <code>body</code> that removes the default margin, chooses a readable sans-serif font, and sets a light background colour.</li>
+                <li>Add a rule for <code>main</code>. Give it a maximum width, a width smaller than the screen, and automatic left and right margins so it sits in the centre.</li>
+                <li>Style each <code>section</code> like a card using a white background, border, rounded corners, padding, and space above and below.</li>
+                <li>Use the <code>add-form</code>, <code>item-row</code>, and <code>list-heading</code> classes to make those elements use Flexbox. Align their contents in the centre and add a small gap so inputs and buttons do not touch.</li>
+                <li>Give text inputs padding and a border. Give normal buttons an accent background, readable text colour, padding, and rounded corners.</li>
+                <li>For the <code>done</code> class, add a line through the text and make its colour quieter. Use <code>delete-button</code> and <code>toggle-button</code> to style those buttons less strongly than add buttons.</li>
+                <li>Narrow your browser window. If a form becomes cramped, add a media query that changes that form’s flex direction to a column on small screens.</li>
+              </ol>
+            </div>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">✓</span><div><strong>Template checkpoint</strong><p>Temporarily add a second list dictionary to <code>app.py</code>. Refresh the page. You should see two separate cards without duplicating the card HTML. Remove the temporary list after this test if you want.</p></div></div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="flask-template" /> <span>My folders and files match the diagram.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>3.4</span><div><h3>Run the Flask version</h3><p>The address changes from port 8000 to Flask’s port 5000.</p></div></div>
+            <div class="terminal-card compact"><pre><code><span class="prompt">(.venv) &gt;</span> python app.py</code></pre></div>
+            <p>Open <a href="http://localhost:5000" target="_blank">http://localhost:5000</a>. Add a list, add two items, check one, and delete the other.</p>
+            <div class="callout callout-amber"><span class="callout-icon" aria-hidden="true">!</span><div><strong>Flask improves the code, not the storage.</strong><p>Your <code>lists = [...]</code> variable still lives only in RAM. Restart Flask and the data will reset exactly as it did in Lesson 2. That remaining problem is the reason for Lesson 4.</p></div></div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="flask-run" /> <span>Every button works in the Flask version.</span></label>
+          </article>
+
+          <article class="exercise-card"><p class="eyebrow">MINI CHALLENGE</p><h3>Choose your accent colour</h3><p>Pick any colour you like—there is no single correct choice. Use its name or hexadecimal value as the background colour for add buttons and as the text colour for the <code>kicker</code> above “Tiny Tasks.” Save and refresh. If button text becomes hard to read, change its text colour too.</p><label class="done-row"><input class="course-check" type="checkbox" data-step="flask-exercise" /> <span>I chose an accent colour and kept the text readable.</span></label></article>
+
+          <article class="stage-checkpoint">
+            <div class="checkpoint-copy">
+              <p class="eyebrow">END OF LESSON 3</p><h3>What you should have now</h3>
+              <ul>
+                <li>A clear project structure: <code>app.py</code>, <code>templates/</code>, and <code>static/</code></li>
+                <li>A styled page with multiple named lists</li>
+                <li>Working add-list, delete-list, add-item, check-item, and delete-item routes</li>
+                <li>Cleaner code—but data that still resets when Flask stops</li>
+              </ul>
+            </div>
+            <div class="checkpoint-screen flask-screen" role="img" aria-label="Expected Lesson 3 result">
+              <div class="mini-address">localhost:5000</div><small>MY LISTS</small><strong>Tiny Tasks</strong>
+              <b>School　<em>Delete list</em></b><span>✓ <s>Pack lunch</s></span><span>○ Read chapter 4</span>
+              <i>What needs doing?　 Add item</i><mark>+ Add another list</mark>
+            </div>
+          </article>
+        </section>
+
+        <section class="lesson" id="lesson-4">
+          <div class="lesson-number" aria-hidden="true">04</div>
+          <div class="lesson-title"><p class="eyebrow">LONG-TERM MEMORY · ABOUT 90 MIN</p><h2>Save everything with SQLite</h2><p>The last missing piece is memory that survives a restart. SQLite stores it in one file.</p><p class="stage-output"><span>This lesson adds</span> Permanent lists and tasks that survive server restarts.</p></div>
+
+          <div class="why-card">
+            <span class="why-label">WHY CHANGE IT?</span>
+            <div><h3>A useful app must remember tomorrow</h3><p>Right now, the lists exist only while Python is running. A database writes structured rows to long-term storage. SQLite is a good first database because Python already includes it, it needs no account or separate database server, and the whole database is one local file. Flask will keep handling the web requests; SQLite will take over the job of remembering.</p></div>
+          </div>
+
+          <article class="video-card">
+            <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/pd-0G0MigUA" title="Python SQLite Tutorial by Corey Schafer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+            <div class="video-copy"><p class="eyebrow">WATCH FIRST · 25 MIN</p><h3>Python SQLite Tutorial</h3><p>Corey Schafer covers connecting, tables, inserting, querying, updating, and deleting. Our app uses the same operations with two connected tables.</p><a href="https://www.youtube.com/watch?v=pd-0G0MigUA" target="_blank" rel="noreferrer">Open on YouTube ↗</a><a class="source-link" href="https://github.com/CoreyMSchafer/code_snippets/tree/master/Python-SQLite" target="_blank" rel="noreferrer">Creator’s complete source code ↗</a></div>
+          </article>
+
+          <div class="database-picture" role="img" aria-label="Database tables and their relationship">
+            <div class="db-table"><strong>lists</strong><span><b>id</b> · 1</span><span><b>name</b> · School</span></div>
+            <div class="db-link"><span>one list</span><b>→</b><span>many items</span></div>
+            <div class="db-table"><strong>items</strong><span><b>id</b> · 7</span><span><b>list_id</b> · 1</span><span><b>text</b> · Pack lunch</span><span><b>done</b> · 1</span></div>
+          </div>
+
+          <div class="key-ideas"><p class="eyebrow">UNDERSTAND THE VIDEO</p><h3>Translate database words into ordinary actions</h3><div class="idea-grid"><div><code>connection</code><p><code>sqlite3.connect("todo.db")</code> opens the file—or creates it the first time. The connection is our path into the database.</p></div><div><code>table / row / column</code><p>A table is like a spreadsheet. Every row is one thing; columns describe it. One item row has an ID, list ID, text, and done value.</p></div><div><code>CREATE TABLE</code><p>Define the columns and rules. <code>IF NOT EXISTS</code> makes it safe to run setup every time the app starts.</p></div><div><code>INSERT / SELECT</code><p>INSERT writes a row. SELECT reads matching rows back. <code>fetchall()</code> turns the result into something Python can loop over.</p></div><div><code>UPDATE / DELETE</code><p>UPDATE changes existing rows; DELETE removes them. A <code>WHERE</code> clause chooses exactly which rows are affected.</p></div><div><code>commit()</code><p>A change is not permanent until it is committed. Think of this as pressing Save after INSERT, UPDATE, or DELETE.</p></div><div><code>?</code><p>Question marks are safe value placeholders. Keep user text separate from SQL instead of building one SQL string.</p></div><div><code>foreign key</code><p><code>items.list_id</code> points to <code>lists.id</code>. This is how each task remembers which list owns it.</p></div></div></div>
+
+          <article class="video-notebook">
+            <div class="notebook-head"><div><p class="eyebrow">VIDEO STARTER CODE</p><h3>Use the video’s SQLite operations inside <code>app.py</code></h3></div><span>Use in your app</span></div>
+            <p>Do not create another Python file and do not replace your Flask code. Keep <code>app.py</code> open. Each database exercise below names an operation—connect, CREATE, INSERT, SELECT, commit, or close. Find that operation in this video example, copy only its pattern into the requested place in <code>app.py</code>, and adapt the employee names to lists and items.</p>
+            <div class="code-card tall-code"><div class="code-top"><span>VIDEO STARTER · use individual patterns in app.py</span></div><pre><code>import sqlite3
+
+connection = sqlite3.connect("employee.db")
+cursor = connection.cursor()
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS employees (
+        first TEXT,
+        last TEXT,
+        pay INTEGER
+    )
+""")
+
+cursor.execute(
+    "INSERT INTO employees VALUES (?, ?, ?)",
+    ("Ada", "Lovelace", 50000),
+)
+connection.commit()
+
+cursor.execute(
+    "SELECT * FROM employees WHERE last = ?",
+    ("Lovelace",),
+)
+print(cursor.fetchall())
+
+connection.close()</code></pre></div>
+            <p class="source-note">This remains the employee example from the video, so it is reference material rather than a second program to run. Your existing <code>app.py</code> is the only Python file you edit in this lesson.</p>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>4.1</span><div><h3>Exercise: replace temporary memory</h3><p>Keep your routes and template, but change where each route reads and writes data.</p></div></div>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">i</span><div><strong>Where the new functions go</strong><p>Keep the Flask app creation at the top. Put the database filename below it, then <code>get_db</code>, then <code>init_db</code>, then the six route functions. Keep the video’s <code>if __name__ == "__main__"</code> section at the very bottom.</p></div></div>
+            <div class="function-contracts" aria-label="Contracts for the database helper functions">
+              <article class="function-contract">
+                <h4>get_db(database_path)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Below the database filename and above <code>init_db</code>.</dd></div>
+                  <div><dt>Input</dt><dd><code>database_path</code>: the filename string for the database.</dd></div>
+                  <div><dt>Output</dt><dd>An open SQLite connection object.</dd></div>
+                  <div><dt>Side effect</dt><dd>Opens the file, or creates it if it does not exist.</dd></div>
+                </dl>
+              </article>
+              <article class="function-contract">
+                <h4>init_db(connection)</h4>
+                <dl>
+                  <div><dt>Put it</dt><dd>Directly below <code>get_db</code> and above the first route.</dd></div>
+                  <div><dt>Input</dt><dd><code>connection</code>: the open connection returned by <code>get_db</code>.</dd></div>
+                  <div><dt>Output</dt><dd>Nothing useful; reaching the end returns <code>None</code>.</dd></div>
+                  <div><dt>Side effect</dt><dd>Creates missing tables and commits those changes to the file.</dd></div>
+                </dl>
+              </article>
+            </div>
+            <div class="callout callout-amber"><span class="callout-icon" aria-hidden="true">↻</span><div><strong>The six route contracts mostly stay the same</strong><p>Their placement, inputs, and redirect or page outputs stay as described in Lesson 3. Their side effects move from changing a Python list in RAM to changing rows in SQLite. The home route now reads rows from SQLite instead of reading the old <code>lists</code> variable.</p></div></div>
+            <ol class="micro-steps">
+              <li>Open the same <code>app.py</code> you finished in Lesson 3. Do not create a new file. Add the video example’s <code>sqlite3</code> import at the top with the other imports.</li>
+              <li>On the first line below the Flask app creation, create a variable that stores the database filename <code>todo.db</code>.</li>
+              <li>Below that variable, define <code>get_db</code> with one parameter named <code>database_path</code>. Inside it, pass that parameter to <code>sqlite3.connect</code> and return the resulting connection. Do not close it inside this function; its caller still needs to use the output.</li>
+              <li>Below <code>get_db</code>, define <code>init_db</code> with one parameter named <code>connection</code>. Inside it, adapt the video’s <code>CREATE TABLE</code> operation to make a <code>lists</code> table with an automatic integer ID and required name.</li>
+              <li>Still inside <code>init_db</code>, create an <code>items</code> table. Give it an automatic integer ID, a required <code>list_id</code>, required text, and a done number that defaults to zero. Make <code>list_id</code> a foreign key pointing to the lists table. Commit before the function ends.</li>
+              <li>At the bottom of the file, find the existing <code>if __name__ == "__main__"</code> section. Before its <code>app.run</code> line, call <code>get_db</code> with the database filename, pass the returned connection into <code>init_db</code>, and then close that connection. Run the app once and confirm that <code>todo.db</code> appears beside <code>app.py</code>. Stop the app before continuing.</li>
+              <li>Delete the old starter <code>lists</code> variable and both next-ID counters. SQLite will create IDs and remember rows now.</li>
+              <li>At the start of <code>index</code>, pass the database filename into <code>get_db</code> and store its returned connection. SELECT all list rows ordered by ID. For each list row, SELECT only the items whose <code>list_id</code> matches, also ordered by ID. Build the nested data your template expects, close the connection, and return the rendered page. Its output is still HTML; its external interaction is now reading the database.</li>
+              <li>At the start of <code>add_list</code>, pass the database filename into <code>get_db</code> and store its returned connection. Replace the Python-list append with an INSERT into the lists table, using a question-mark placeholder for the submitted name. Commit, close, and return the same redirect as before.</li>
+              <li>In <code>delete_list</code>, get and store a connection the same way. First DELETE every item whose <code>list_id</code> matches the input. Then DELETE the matching list row. Doing both explicitly avoids relying on automatic cascade settings. Commit, close, and return the redirect.</li>
+              <li>In <code>add_item</code>, get and store a connection. INSERT the <code>list_id</code> input, submitted text, and unfinished done value. Commit, close, and return the redirect.</li>
+              <li>In <code>toggle_item</code>, get and store a connection. SELECT the current done value for the <code>item_id</code> input. UPDATE that row to zero if it was one, or one if it was zero. Commit, close, and return the redirect.</li>
+              <li>In <code>delete_item</code>, get and store a connection. DELETE the row matching the <code>item_id</code> input. Commit, close, and return the redirect.</li>
+            </ol>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">✓</span><div><strong>Database checkpoint</strong><p>Search <code>app.py</code> for every place that used to append, remove, or change a Python list. Each of those actions should now use INSERT, DELETE, or UPDATE. The home route should use SELECT.</p></div></div>
+            <div class="callout callout-blue"><span class="callout-icon" aria-hidden="true">?</span><div><strong>Why are there question marks in the SQL?</strong><p>They are safe placeholders. Python puts the values into them without treating a task’s text as SQL code. Always use placeholders for user input.</p></div></div>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="sqlite-code" /> <span>I replaced and saved <code>app.py</code>.</span></label>
+          </article>
+
+          <article class="build-step">
+            <div class="step-head"><span>4.2</span><div><h3>Test long-term memory</h3><p>Make data, restart Python, and make sure the data stays.</p></div></div>
+            <ol class="micro-steps">
+              <li>Run <code>python app.py</code> again and open <code>http://localhost:5000</code>.</li>
+              <li>Create a list named <strong>Test persistence</strong>.</li>
+              <li>Add an item named <strong>This should stay</strong> and check it.</li>
+              <li>Stop the server with <kbd>Ctrl</kbd> + <kbd>C</kbd>. Start it again with <code>python app.py</code>.</li>
+              <li>Refresh the browser. Your list and checked item should still be there.</li>
+            </ol>
+            <p class="small">A new file named <code>todo.db</code> appears automatically. Do not open or edit it like a text file.</p>
+            <label class="done-row"><input class="course-check" type="checkbox" data-step="sqlite-run" /> <span>My task survives a server restart.</span></label>
+          </article>
+
+          <article class="exercise-card"><p class="eyebrow">FINAL CHALLENGE</p><h3>Test every path</h3><p>Create two lists. Put two items in each. Check one item. Delete a different item. Delete one entire list. Restart the server and confirm the remaining list is unchanged. The test names are entirely your choice; only the behavior matters.</p><details><summary>If something goes wrong</summary><ul><li>Read the <strong>last line</strong> of the terminal error first.</li><li>Check that indentation uses four spaces inside each function.</li><li>Check that every quote, bracket, and parenthesis has a matching partner.</li><li>If you changed the database table code, stop the server, delete only <code>todo.db</code>, and restart. This erases your test data and rebuilds the tables.</li></ul></details><label class="done-row"><input class="course-check" type="checkbox" data-step="sqlite-exercise" /> <span>Every path works after a restart.</span></label></article>
+
+          <article class="stage-checkpoint final-checkpoint">
+            <div class="checkpoint-copy">
+              <p class="eyebrow">END OF LESSON 4</p><h3>What you should have now</h3>
+              <ul>
+                <li>The same small, styled, multi-list to-do app from Lesson 3</li>
+                <li>A new <code>todo.db</code> file beside <code>app.py</code></li>
+                <li>Lists and tasks that remain after stopping Python, closing the browser, and starting again</li>
+                <li>The complete path: HTML → HTTP → Flask → SQLite</li>
+              </ul>
+            </div>
+            <div class="checkpoint-screen flask-screen" role="img" aria-label="Expected finished app result">
+              <div class="mini-address">localhost:5000</div><small>MY LISTS</small><strong>Tiny Tasks</strong>
+              <b>Test persistence</b><span>✓ <s>This should stay</s></span>
+              <i>What needs doing?　 Add item</i><mark>Restart → still here ✓</mark>
+            </div>
+          </article>
+        </section>
+
+        <section class="section finish" id="finish">
+          <div class="finish-mark" aria-hidden="true">✓</div>
+          <p class="eyebrow">YOU BUILT THE WHOLE LOOP</p>
+          <h2>That is a real web app.</h2>
+          <p>Your browser sends requests. Flask chooses Python functions. SQLite saves the data. A template turns that data into HTML. The browser displays it.</p>
+          <div class="finish-flow"><span>HTML</span><b>→</b><span>HTTP</span><b>→</b><span>Flask</span><b>→</b><span>SQLite</span></div>
+          <div class="next-card">
+            <div><p class="eyebrow">CHECK YOUR WORK</p><h3>Open the complete answer key</h3><p>The answer key contains one possible finished project for every lesson. Try the exercises yourself first, then <a href="answers/">compare your files with the four completed versions</a>.</p></div>
+            <button id="reset-progress" class="button button-secondary" type="button">Reset my progress</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer><p>Made for curious beginners. No magic steps.</p><a href="#top">Back to top ↑</a></footer>
+  </body>
+</html>
