@@ -175,6 +175,7 @@ main { min-width: 0; }
 .stage-checkpoint { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; margin-top: 64px; padding: 32px; border: 1px solid #b8ca78; border-radius: var(--radius); background: #eef5cd; }
 .checkpoint-copy h3 { margin: 3px 0 10px; font-size: 1.45rem; }
 .checkpoint-copy ul { display: grid; gap: 7px; margin: 0; padding-left: 19px; color: #53603e; font-size: 0.82rem; }
+.answer-source-link { display: inline-block; margin-top: 18px; font-size: 0.78rem; font-weight: 800; }
 .checkpoint-screen { display: grid; gap: 8px; transform: rotate(1deg); padding: 18px; border: 1px solid #ced2c9; border-radius: 11px; background: white; box-shadow: 8px 10px 0 rgba(96, 116, 44, 0.16); font-size: 0.7rem; }
 .checkpoint-screen .mini-address { margin: -18px -18px 8px; padding: 7px 11px; border-bottom: 1px solid #e6e8e2; border-radius: 11px 11px 0 0; color: #919892; font-family: "DM Mono", monospace; font-size: 0.55rem; text-align: center; }
 .checkpoint-screen > strong { font-size: 1.2rem; }
